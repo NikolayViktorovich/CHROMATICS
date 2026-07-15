@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { api } from '../lib/api'
 import type { Category } from '../lib/types'
-import { PHONES } from '../lib/contacts'
+import { COMPANY_NAME, COPYRIGHT_YEAR, INSTAGRAM, PHONES, TAGLINE } from '../lib/contacts'
 import { Logo } from './Logo'
 import { PageTransition } from './PageTransition'
 import { SplashScreen } from './SplashScreen'
@@ -183,6 +183,33 @@ export function StoreLayout() {
                     </ul>
                   </>
                 )}
+                <div className="mt-6 border-t border-stone-100 px-1 pt-5">
+                  <p className="mb-3 text-xs text-stone-400">Контакты</p>
+                  <ul className="space-y-2 text-sm">
+                    {PHONES.map((phone) => (
+                      <li key={phone.href}>
+                        <a
+                          href={phone.href}
+                          className="font-medium text-stone-900 underline-offset-4 hover:underline"
+                          onClick={requestCloseMenu}
+                        >
+                          {phone.display}
+                        </a>
+                      </li>
+                    ))}
+                    <li>
+                      <a
+                        href={INSTAGRAM.href}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="font-medium text-stone-900 underline-offset-4 hover:underline"
+                        onClick={requestCloseMenu}
+                      >
+                        {INSTAGRAM.label}
+                      </a>
+                    </li>
+                  </ul>
+                </div>
               </nav>
             </div>
           </div>,
@@ -199,7 +226,7 @@ export function StoreLayout() {
             <div>
               <Logo light />
               <p className="mt-3 text-sm leading-relaxed text-stone-400">
-                ООО «Хроматика» — краски, грунты, декоративные покрытия и штукатурки.
+                {COMPANY_NAME} — {TAGLINE}.
               </p>
             </div>
 
@@ -239,12 +266,12 @@ export function StoreLayout() {
                 ))}
                 <li>
                   <a
-                    href="https://www.instagram.com/chrom.aticaa"
+                    href={INSTAGRAM.href}
                     target="_blank"
                     rel="noreferrer"
                     className="transition-colors hover:text-white"
                   >
-                    Instagram
+                    {INSTAGRAM.label}
                   </a>
                 </li>
               </ul>
@@ -254,7 +281,7 @@ export function StoreLayout() {
 
         <div className="border-t border-stone-800">
           <div className="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-4 text-xs text-stone-600 sm:flex-row sm:items-center sm:justify-between sm:px-6">
-            <span>© {new Date().getFullYear()} ООО «Хроматика»</span>
+            <span>© {COPYRIGHT_YEAR} {COMPANY_NAME}</span>
             <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
               <NavLink to="/privacy" className="transition-colors hover:text-stone-400">
                 Политика конфиденциальности

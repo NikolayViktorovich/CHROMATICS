@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { TAGLINE } from '../../lib/contacts'
 
 const SWATCHES = ['#e5b800', '#a8a29e', '#d6d3d1', '#78716c', '#fafaf9'] as const
 const TRIM_END_SECONDS = 3
@@ -92,8 +93,7 @@ export function HomeHero({
               Хроматика
             </h1>
             <p className="mt-4 max-w-md text-sm leading-relaxed text-stone-300 sm:mt-5 sm:text-base lg:text-lg">
-              Краски, грунты и декоративные покрытия для интерьера и фасада — подберите оттенок и
-              фактуру под ваш проект.
+              {TAGLINE}
             </p>
 
             <div className="mt-6 flex flex-wrap items-center gap-3 sm:mt-8 sm:gap-4">

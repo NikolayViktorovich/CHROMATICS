@@ -6,7 +6,7 @@ import { HomeHero } from '../components/home/HomeHero'
 import { CategoryBento } from '../components/home/CategoryBento'
 import { FeaturedProducts } from '../components/home/FeaturedProducts'
 import { HomeLocation } from '../components/home/HomeLocation'
-import { PHONES } from '../lib/contacts'
+import { PHONES, TAGLINE } from '../lib/contacts'
 
 export function HomePage() {
   const [categories, setCategories] = useState<Category[]>([])
@@ -55,8 +55,7 @@ export function HomePage() {
               Хроматика
             </h2>
             <p className="mt-4 text-[15px] leading-relaxed text-stone-400 sm:text-base">
-              Краски, грунты, декоративные покрытия и штукатурки — подберите материал по типу и
-              области применения. У каждой позиции указаны расход, состав и условия нанесения.
+              {TAGLINE}. У каждой позиции указаны расход, состав и условия нанесения.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
               <Link
