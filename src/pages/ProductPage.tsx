@@ -82,7 +82,7 @@ export function ProductPage() {
                   <img
                     src={product.image}
                     alt={product.name}
-                    className="relative z-10 aspect-square w-full max-w-[15rem] object-contain sm:max-w-[18rem] lg:max-w-full"
+                    className="relative z-10 mx-auto aspect-square w-full max-w-[15rem] object-contain sm:max-w-[18rem] lg:max-w-full"
                   />
                 </ImageLightbox>
               ) : (

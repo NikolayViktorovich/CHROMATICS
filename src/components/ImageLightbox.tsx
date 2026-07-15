@@ -89,7 +89,7 @@ export function ImageLightbox({
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="group relative block w-full cursor-zoom-in border-0 bg-transparent p-0"
+        className="group relative mx-auto flex w-full cursor-zoom-in items-center justify-center border-0 bg-transparent p-0"
         aria-label="Открыть изображение"
       >
         {children}

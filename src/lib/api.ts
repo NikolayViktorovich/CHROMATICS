@@ -1,10 +1,4 @@
 import type { Category, Product, ProductInput, ProductList } from './types'
-import {
-  mockGetBrands,
-  mockGetCategories,
-  mockGetProduct,
-  mockGetProducts,
-} from './mockStore'
 
 export type AdminSession = {
   id: string
@@ -16,13 +10,6 @@ export type AdminSession = {
 }
 
 const TOKEN_KEY = 'admin_token'
-
-/** По умолчанию мок (клиент без бэка). API: VITE_USE_MOCK=false */
-const useMockStore = import.meta.env.VITE_USE_MOCK !== 'false'
-
-export function isMockStore(): boolean {
-  return useMockStore
-}
 
 export function getToken(): string | null {
   return localStorage.getItem(TOKEN_KEY)
@@ -97,9 +84,7 @@ export const api = {
     ),
 
   getCategories: (all = false) =>
-    useMockStore
-      ? Promise.resolve(mockGetCategories())
-      : request<Category[]>(`/api/categories${all ? '?all=1' : ''}`),
+    request<Category[]>(`/api/categories${all ? '?all=1' : ''}`),
   createCategory: (data: Partial<Category>) =>
     request<Category>('/api/categories', { method: 'POST', body: JSON.stringify(data) }),
   updateCategory: (id: number, data: Partial<Category>) =>
@@ -113,22 +98,14 @@ export const api = {
     ),
 
   getProducts: (params: Record<string, string | number | undefined>) => {
-    if (useMockStore) return Promise.resolve(mockGetProducts(params))
     const qs = new URLSearchParams()
     for (const [k, v] of Object.entries(params)) {
       if (v !== undefined && v !== '') qs.set(k, String(v))
     }
     return request<ProductList>(`/api/products?${qs}`)
   },
-  getProduct: (slug: string) =>
-    useMockStore
-      ? Promise.resolve(mockGetProduct(slug)).then((product) => {
-          if (!product) throw new ApiError('Товар не найден', 404)
-          return product
-        })
-      : request<Product>(`/api/products/${slug}`),
-  getBrands: () =>
-    useMockStore ? Promise.resolve(mockGetBrands()) : request<string[]>('/api/products/brands'),
+  getProduct: (slug: string) => request<Product>(`/api/products/${slug}`),
+  getBrands: () => request<string[]>('/api/products/brands'),
   createProduct: (data: ProductInput) =>
     request<Product>('/api/products', { method: 'POST', body: JSON.stringify(data) }),
   updateProduct: (id: number, data: ProductInput) =>

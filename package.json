@@ -4,9 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "build-mock-data": "node scripts/build-mock-data.mjs",
     "dev": "vite",
-    "build": "npm run build-mock-data && tsc -b && vite build",
+    "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview"
   },
