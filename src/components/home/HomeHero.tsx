@@ -99,7 +99,7 @@ export function HomeHero({
             <div className="mt-6 flex flex-wrap items-center gap-3 sm:mt-8 sm:gap-4">
               <Link
                 to="/catalog"
-                className="inline-flex w-full items-center justify-center rounded-full bg-white/95 px-6 py-3 text-sm font-semibold text-stone-900 backdrop-blur-sm transition-transform duration-300 hover:scale-[1.02] active:scale-[0.98] sm:w-auto sm:px-7"
+                className="inline-flex w-full items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-stone-900 transition-colors duration-150 hover:bg-stone-100 sm:w-auto sm:px-7"
               >
                 Смотреть каталог
               </Link>

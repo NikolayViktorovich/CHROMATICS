@@ -21,7 +21,6 @@ export function CategoryBento({
           >
             <div className="h-12 w-2 shrink-0 rounded-full bg-stone-100" />
             <div className="flex-1 space-y-2">
-              <div className="h-3 w-8 rounded bg-stone-100" />
               <div className="h-5 w-2/3 max-w-xs rounded bg-stone-100" />
             </div>
             <div className="h-4 w-10 rounded bg-stone-100" />
@@ -39,7 +38,6 @@ export function CategoryBento({
     <div className="home-categories overflow-hidden rounded-2xl border border-stone-200/80 bg-white shadow-[0_20px_48px_-32px_rgba(28,25,23,0.12)]">
       {categories.map((cat, index) => {
         const swatch = SWATCHES[index % SWATCHES.length]
-        const num = String(index + 1).padStart(2, '0')
 
         return (
           <Link
@@ -54,14 +52,9 @@ export function CategoryBento({
             />
 
             <div className="min-w-0 flex-1">
-              <div className="flex items-baseline gap-3">
-                <span className="font-jost text-xs font-medium tracking-[0.2em] text-stone-400">
-                  {num}
-                </span>
-                <h3 className="font-jost text-lg font-semibold tracking-wide text-stone-900 uppercase sm:text-xl">
-                  {cat.name}
-                </h3>
-              </div>
+              <h3 className="font-jost text-lg font-semibold tracking-tight text-stone-900 sm:text-xl">
+                {cat.name}
+              </h3>
               {cat.description && (
                 <p className="mt-2 line-clamp-2 max-w-2xl text-sm leading-relaxed text-stone-500">
                   {cat.description}
@@ -74,7 +67,7 @@ export function CategoryBento({
                 {cat.productCount}
               </span>
               <span
-                className="text-lg text-stone-300 transition-all duration-300 group-hover:translate-x-0.5 group-hover:text-stone-900"
+                className="text-lg text-stone-300 transition-colors duration-150 group-hover:text-stone-900"
                 aria-hidden
               >
                 →

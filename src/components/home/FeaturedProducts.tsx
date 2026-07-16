@@ -40,7 +40,6 @@ export function FeaturedProducts({
               product={product}
               className="h-full w-full object-contain p-5"
             />
-            <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-white/80 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
           </div>
           <div className="p-4 sm:p-5">
             <p className="text-xs text-stone-400">{product.category.name}</p>

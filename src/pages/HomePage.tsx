@@ -29,7 +29,7 @@ export function HomePage() {
       <HomeHero totalProducts={totalProducts} loading={loading} />
 
       <section className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6 sm:py-20">
-        <SectionHeader title="Разделы каталога" label="Категории" href="/catalog" linkText="Все" />
+        <SectionHeader title="Разделы каталога" href="/catalog" linkText="Все" />
         <div className={loading ? 'content-dimmed' : ''}>
           <CategoryBento categories={categories} loading={loading} />
         </div>
@@ -37,7 +37,7 @@ export function HomePage() {
 
       <section className="home-featured-band border-y border-stone-200/80 bg-stone-50/80 py-12 sm:py-20">
         <div className="mx-auto w-full max-w-6xl px-4 sm:px-6">
-          <SectionHeader title="Популярные позиции" label="Подборка" href="/catalog" linkText="Смотреть все" />
+          <SectionHeader title="Популярные позиции" href="/catalog" linkText="Смотреть все" />
           <div className={loading ? 'content-dimmed' : ''}>
             <FeaturedProducts products={featured} loading={loading} />
           </div>
@@ -48,10 +48,8 @@ export function HomePage() {
 
       <section className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6 sm:py-20">
         <div className="home-about relative overflow-hidden rounded-[1.75rem] bg-stone-900 px-6 py-10 text-white sm:px-10 sm:py-14 lg:flex lg:items-end lg:justify-between lg:gap-16">
-          <div className="home-about-glow absolute -top-24 -right-16 h-64 w-64 rounded-full bg-stone-600/30 blur-3xl" aria-hidden />
           <div className="relative max-w-xl">
-            <p className="font-jost text-xs tracking-[0.3em] text-stone-500 uppercase">О компании</p>
-            <h2 className="mt-3 font-jost text-2xl font-semibold tracking-wide uppercase sm:text-3xl">
+            <h2 className="font-jost text-2xl font-semibold tracking-tight sm:text-3xl">
               Хроматика
             </h2>
             <p className="mt-4 text-[15px] leading-relaxed text-stone-400 sm:text-base">
@@ -60,7 +58,7 @@ export function HomePage() {
             <div className="mt-7 flex flex-wrap gap-3">
               <Link
                 to="/catalog"
-                className="rounded-full border border-white/15 bg-white/10 px-5 py-2.5 text-sm font-medium backdrop-blur-sm transition-colors hover:bg-white/15"
+                className="rounded-full border border-white/40 px-5 py-2.5 text-sm font-medium transition-colors hover:bg-white hover:text-stone-900"
               >
                 Весь каталог
               </Link>
@@ -97,20 +95,17 @@ export function HomePage() {
 }
 
 function SectionHeader({
-  label,
   title,
   href,
   linkText,
 }: {
-  label: string
   title: string
   href: string
   linkText: string
 }) {
   return (
     <div className="mb-8 sm:mb-10">
-      <p className="text-xs font-semibold tracking-[0.15em] text-stone-400 uppercase">{label}</p>
-      <div className="mt-2 flex items-end justify-between gap-3">
+      <div className="flex items-end justify-between gap-3">
         <h2 className="font-jost text-2xl font-semibold tracking-tight text-stone-900 sm:text-3xl">
           {title}
         </h2>
