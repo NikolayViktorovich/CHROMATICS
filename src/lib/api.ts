@@ -1,3 +1,9 @@
+import {
+  seedGetBrands,
+  seedGetCategories,
+  seedGetProduct,
+  seedGetProducts,
+} from './seed'
 import type { Category, Product, ProductInput, ProductList } from './types'
 
 export type AdminSession = {
@@ -54,6 +60,19 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
   return data as T
 }
 
+async function requestOrSeed<T>(
+  path: string,
+  options: RequestInit,
+  fallback: () => T,
+): Promise<T> {
+  try {
+    return await request<T>(path, options)
+  } catch (err) {
+    if (err instanceof ApiError && err.status === 0) return fallback()
+    throw err
+  }
+}
+
 export const api = {
   login: (username: string, password: string) =>
     request<{ token: string; user: { id: number; username: string } }>('/api/auth/login', {
@@ -84,7 +103,11 @@ export const api = {
     ),
 
   getCategories: (all = false) =>
-    request<Category[]>(`/api/categories${all ? '?all=1' : ''}`),
+    requestOrSeed<Category[]>(
+      `/api/categories${all ? '?all=1' : ''}`,
+      {},
+      () => seedGetCategories(all),
+    ),
   createCategory: (data: Partial<Category>) =>
     request<Category>('/api/categories', { method: 'POST', body: JSON.stringify(data) }),
   updateCategory: (id: number, data: Partial<Category>) =>
@@ -102,10 +125,15 @@ export const api = {
     for (const [k, v] of Object.entries(params)) {
       if (v !== undefined && v !== '') qs.set(k, String(v))
     }
-    return request<ProductList>(`/api/products?${qs}`)
+    return requestOrSeed<ProductList>(`/api/products?${qs}`, {}, () => seedGetProducts(params))
   },
-  getProduct: (slug: string) => request<Product>(`/api/products/${slug}`),
-  getBrands: () => request<string[]>('/api/products/brands'),
+  getProduct: (slug: string) =>
+    requestOrSeed<Product>(`/api/products/${slug}`, {}, () => {
+      const product = seedGetProduct(slug)
+      if (!product) throw new ApiError('Товар не найден', 404)
+      return product
+    }),
+  getBrands: () => requestOrSeed<string[]>('/api/products/brands', {}, seedGetBrands),
   createProduct: (data: ProductInput) =>
     request<Product>('/api/products', { method: 'POST', body: JSON.stringify(data) }),
   updateProduct: (id: number, data: ProductInput) =>
