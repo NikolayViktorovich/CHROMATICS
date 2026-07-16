@@ -4,7 +4,7 @@ import {
   seedGetProduct,
   seedGetProducts,
 } from './seed'
-import type { Category, Product, ProductInput, ProductList } from './types'
+import type { Category, Product, ProductInput } from './types'
 
 export type AdminSession = {
   id: string
@@ -60,19 +60,6 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
   return data as T
 }
 
-async function requestOrSeed<T>(
-  path: string,
-  options: RequestInit,
-  fallback: () => T,
-): Promise<T> {
-  try {
-    return await request<T>(path, options)
-  } catch (err) {
-    if (err instanceof ApiError && err.status === 0) return fallback()
-    throw err
-  }
-}
-
 export const api = {
   login: (username: string, password: string) =>
     request<{ token: string; user: { id: number; username: string } }>('/api/auth/login', {
@@ -102,12 +89,7 @@ export const api = {
       { method: 'POST' },
     ),
 
-  getCategories: (all = false) =>
-    requestOrSeed<Category[]>(
-      `/api/categories${all ? '?all=1' : ''}`,
-      {},
-      () => seedGetCategories(all),
-    ),
+  getCategories: (all = false) => Promise.resolve(seedGetCategories(all)),
   createCategory: (data: Partial<Category>) =>
     request<Category>('/api/categories', { method: 'POST', body: JSON.stringify(data) }),
   updateCategory: (id: number, data: Partial<Category>) =>
@@ -120,20 +102,14 @@ export const api = {
       { method: 'POST', body: JSON.stringify(payload) },
     ),
 
-  getProducts: (params: Record<string, string | number | undefined>) => {
-    const qs = new URLSearchParams()
-    for (const [k, v] of Object.entries(params)) {
-      if (v !== undefined && v !== '') qs.set(k, String(v))
-    }
-    return requestOrSeed<ProductList>(`/api/products?${qs}`, {}, () => seedGetProducts(params))
+  getProducts: (params: Record<string, string | number | undefined>) =>
+    Promise.resolve(seedGetProducts(params)),
+  getProduct: (slug: string) => {
+    const product = seedGetProduct(slug)
+    if (!product) return Promise.reject(new ApiError('Товар не найден', 404))
+    return Promise.resolve(product)
   },
-  getProduct: (slug: string) =>
-    requestOrSeed<Product>(`/api/products/${slug}`, {}, () => {
-      const product = seedGetProduct(slug)
-      if (!product) throw new ApiError('Товар не найден', 404)
-      return product
-    }),
-  getBrands: () => requestOrSeed<string[]>('/api/products/brands', {}, seedGetBrands),
+  getBrands: () => Promise.resolve(seedGetBrands()),
   createProduct: (data: ProductInput) =>
     request<Product>('/api/products', { method: 'POST', body: JSON.stringify(data) }),
   updateProduct: (id: number, data: ProductInput) =>
